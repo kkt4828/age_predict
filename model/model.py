@@ -19,9 +19,7 @@ class SimpleNet(nn.Module):
 class ConvNet(nn.Module):
     def __init__(self, out_ch=1):
         super().__init__()
-        self.net = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
-        for param in self.net.parameters():
-            param.required_grad = False
+        self.net = models.resnet18()
         self.net.avgpool = nn.AdaptiveAvgPool2d((7, 7))
         self.net.fc = nn.Sequential(
             nn.Flatten(),
@@ -29,6 +27,9 @@ class ConvNet(nn.Module):
             nn.ReLU(),
             nn.Linear(512, out_ch)
         )
+        model_state_dict = torch.load('model/resnet18.pt')
+        self.net.load_state_dict(model_state_dict)
+
 
     def forward(self, x):
         x = self.net(x)

@@ -1,6 +1,7 @@
 .idea
 .idea/*
-*.csv
+#*.csv
 *.jpg
 *.jpeg
 *.png
+.pt

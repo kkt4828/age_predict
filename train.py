@@ -22,11 +22,11 @@ class AgeData(Dataset):
     def __getitem__(self, idx):
         img = cv2.imread(self.x[idx], cv2.IMREAD_COLOR)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = cv2.resize(img, dsize=(448, 448))
+        img = cv2.resize(img, dsize=(224, 224))
         img = np.array(img) / 255.
         img = transforms.Compose([
                         transforms.ToTensor(),
-                        transforms.Resize(224),
+                        # transforms.Resize(224),
                         # transforms.Normalize(mean=0.5, std=0.5)
                     ])(img)
         img = img.view(3, 224, 224)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     test['image_url'] = test['image_url'].apply(lambda x: 'data/'+x[15:])
 
     train_ds = AgeData(train)
-    train_dl = DataLoader(train_ds, batch_size=16, shuffle=True, drop_last=True)
+    train_dl = DataLoader(train_ds, batch_size=32, shuffle=True, drop_last=True)
 
     test_ds = AgeData(test)
     test_dl = DataLoader(test_ds, batch_size=16, drop_last=True)
