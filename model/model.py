@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision import models
-
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 class SimpleNet(nn.Module):
     def __init__(self, in_ch, out_ch):
         super().__init__()
@@ -27,7 +27,7 @@ class ConvNet(nn.Module):
             nn.ReLU(),
             nn.Linear(512, out_ch)
         )
-        model_state_dict = torch.load('model/resnet18.pt')
+        model_state_dict = torch.load('model/resnet18.pt', map_location=torch.device(device=device))
         self.net.load_state_dict(model_state_dict)
 
 
